@@ -12,6 +12,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 * {
@@ -143,7 +144,7 @@ nav {
   right: 0;
   z-index: 50;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 24px;
   padding: 14px 48px;
@@ -158,11 +159,13 @@ nav {
   align-items: center;
   gap: 12px;
   justify-self: start;
+  min-width: 0;
 }
 
 .nav-logo {
   width: 34px;
   height: 34px;
+  flex-shrink: 0;
   display: block;
 }
 
@@ -170,6 +173,7 @@ nav {
   font: 600 12px/1.3 var(--font-body);
   letter-spacing: 0.14em;
   color: var(--color-fg);
+  min-width: 0;
 }
 
 /*
@@ -1204,19 +1208,29 @@ textarea.form-input {
 /* ============================================================
    RESPONSIVE
    The design reference was a fixed-desktop export with no mobile
-   layout specified anywhere, so everything below is new. Two tiers:
-   tablet (<=860px) keeps a real margin around each section's cards;
-   phone (<=560px) shrinks that margin further so cards read as
-   effectively full-width. Note: #hero/#about/#concerts/#media/#contact
-   each carry their own ID-selector padding rule earlier in this file,
-   which beats a plain `section {...}` override on specificity alone —
-   so every override below targets those IDs directly rather than the
-   bare `section` element, or it would silently no-op.
+   layout specified anywhere, so everything below is new. Three tiers:
+     - desktop (>1024px): unchanged original layout.
+     - tablet (641–1024px): its own grid, not just a squeezed desktop
+       or a fully-stacked phone — concerts drops from 3 to 2 columns,
+       nav collapses to the hamburger, but about/contact/media keep
+       their 2-column grids since there's still room for them.
+     - phone (<=640px): every grid stacks to one column and cards run
+       (nearly) full-width.
+   Note: #hero/#about/#concerts/#media/#contact each carry their own
+   ID-selector padding rule earlier in this file, which beats a plain
+   `section {...}` override on specificity alone — so every override
+   below targets those IDs directly rather than the bare `section`
+   element, or it would silently no-op regardless of source order.
+   Every grid-template-columns override also uses minmax(0, ...) rather
+   than a bare 1fr/auto — a bare fr track won't shrink below its
+   content's min-content width, which is exactly what caused the nav's
+   horizontal-scroll bug (an unbreakable word forcing it wider than
+   some viewports) fixed alongside this pass.
    ============================================================ */
 
-@media (max-width: 860px) {
+@media (max-width: 1024px) {
   nav {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     padding: 12px 20px;
   }
 
@@ -1292,11 +1306,11 @@ textarea.form-input {
     font-size: 30px;
   }
 
-  .about-grid,
-  .contact-grid,
-  .concerts-grid,
-  .media-video {
-    grid-template-columns: 1fr;
+  /* Tablet's own grid: concerts drops from 3 to 2 columns; about,
+     contact and media keep their 2-column layouts (see phone tier
+     below for where those finally stack to one). */
+  .concerts-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .media-video-frame {
@@ -1320,7 +1334,7 @@ textarea.form-input {
   }
 
   .gallery-carousel {
-    height: 300px;
+    height: 320px;
   }
 
   .contact-form,
@@ -1330,11 +1344,12 @@ textarea.form-input {
 }
 
 /*
-  Phone tier: cards go (nearly) full-bleed — a small 12px gutter so the
-  glass cards' rounded corners/shadow still read as cards rather than
-  looking clipped, instead of tablet's much larger 32px side margin.
+  Phone tier: every grid stacks to one column and cards go (nearly)
+  full-bleed — a small 12px gutter so the glass cards' rounded
+  corners/shadow still read as cards rather than looking clipped,
+  instead of tablet's much larger 32px side margin.
 */
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   #hero {
     padding: 100px 12px 40px;
   }
@@ -1350,6 +1365,7 @@ textarea.form-input {
   .contact-grid,
   .concerts-grid,
   .media-video {
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
 
@@ -1381,5 +1397,9 @@ textarea.form-input {
 
   .gallery-block {
     padding: 28px 12px 24px;
+  }
+
+  .gallery-carousel {
+    height: 300px;
   }
 }

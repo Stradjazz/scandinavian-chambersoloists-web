@@ -363,7 +363,7 @@ const galleryDotEls = GALLERY_IMAGES.map((_, i) => {
 // coverflow still fits and reads cleanly on narrow viewports.
 function getGalleryCardSize() {
   const vw = window.innerWidth;
-  const width = vw <= 480 ? 160 : vw <= 860 ? 200 : 260;
+  const width = vw <= 640 ? 160 : vw <= 1024 ? 200 : 260;
   return {
     width,
     height: Math.round((width * 340) / 260),
