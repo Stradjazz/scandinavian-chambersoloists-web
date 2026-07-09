@@ -1,86 +1,5 @@
 // Site entry point.
 
-const DICTIONARY = {
-  en: {
-    navHome: 'Home',
-    navAbout: 'About',
-    navConcerts: 'Concerts',
-    navMedia: 'Media',
-    navContact: 'Contact',
-    supportedBy: 'Supported by Arts Council Norway',
-    heroKicker: 'SCANDINAVIAN CHAMBER SOLOISTS',
-    heroTitle: 'Chamber music of international dimensions',
-    heroQuote: '"A melting pot of talent from all over the world" — the ensemble\'s sound has been called a mini world of stringed instruments.',
-    heroQuoteSource: 'EMIL OTTO SYVERTSEN, FÆDRELANDSVENNEN',
-    heroCta1: 'About the ensemble',
-    heroCta2: 'See concerts',
-    aboutKicker: 'WHO WE ARE',
-    aboutTitle: 'Musicians from five countries, one Kristiansand stage',
-    aboutBody1: 'Scandinavian Chamber Soloists is a Kristiansand-based ensemble comprised of musicians from Norway, Sweden, the Netherlands, Armenia and Japan.',
-    aboutBody2: 'Founded and led by violinist Loussine Azizian Idsøe, the ensemble has toured Norway and Denmark to critical acclaim since its 2019 debut.',
-    aboutCta: 'Get in touch',
-    musiciansKicker: 'THE MUSICIANS',
-    concertsKicker: "WHAT'S NEXT",
-    concertsTitle: 'Upcoming concerts',
-    concertReadMore: 'Read more',
-    mediaKicker: 'WATCH',
-    mediaTitle: "Piazzolla's Spring, live in Trinitatis Church",
-    mediaBody: 'Recorded live in Copenhagen, February 2020. The full performance features on our debut album.',
-    mediaCta: 'Watch on YouTube',
-    galleryKicker: 'GALLERY',
-    galleryTitle: "From Grundtvig's Church, Copenhagen",
-    contactTitle: 'Drop us a message',
-    contactName: 'Your name',
-    contactEmail: 'Email address',
-    contactMessage: 'Message',
-    contactSend: 'Send message',
-    contactAddressLabel: 'ADDRESS',
-    contactEmailLabel: 'EMAIL',
-    contactPhoneLabel: 'PHONE',
-    contactSuccess: 'Thanks — your message has been sent.',
-    contactError: 'Something went wrong sending your message. Please try again or email us directly.',
-  },
-  no: {
-    navHome: 'Hjem',
-    navAbout: 'Om',
-    navConcerts: 'Konserter',
-    navMedia: 'Media',
-    navContact: 'Kontakt',
-    supportedBy: 'Støttet af Kulturrådet',
-    heroKicker: 'SCANDINAVIAN CHAMBER SOLOISTS',
-    heroTitle: 'Kammermusikk av internasjonal klasse',
-    heroQuote: '«En smeltedigel av talent fra hele verden» — ensemblets klang er blitt kalt en mini-verden av strengeinstrumenter.',
-    heroQuoteSource: 'EMIL OTTO SYVERTSEN, FÆDRELANDSVENNEN',
-    heroCta1: 'Om ensemblet',
-    heroCta2: 'Se konserter',
-    aboutKicker: 'HVEM ER VI',
-    aboutTitle: 'Musikere fra fem land, én scene i Kristiansand',
-    aboutBody1: 'Scandinavian Chamber Soloists er et ensemble med musikere fra Norge, Sverige, Nederland, Armenia og Japan, med base i Kristiansand.',
-    aboutBody2: 'Ensemblet er etablert og ledet av fiolinist Loussine Azizian Idsøe, og har turnert i Norge og Danmark med stor suksess siden debuten i 2019.',
-    aboutCta: 'Ta kontakt',
-    musiciansKicker: 'MUSIKERE',
-    concertsKicker: 'KOMMENDE',
-    concertsTitle: 'Kommende konserter',
-    concertReadMore: 'Les mer',
-    mediaKicker: 'SE VIDEO',
-    mediaTitle: 'Piazzollas Vår, live i Trinitatis Kirke',
-    mediaBody: 'Live-versjon spilt inn i København, februar 2020. Hele fremføringen finnes på vårt debutalbum.',
-    mediaCta: 'Se på YouTube',
-    galleryKicker: 'GALLERI',
-    galleryTitle: 'Fra Grundtvigskirken, København',
-    contactTitle: 'Send oss en melding',
-    contactName: 'Navnet ditt',
-    contactEmail: 'Email adresse',
-    contactMessage: 'Beskjed',
-    contactSend: 'Sende',
-    contactAddressLabel: 'ADRESSE',
-    contactEmailLabel: 'EMAIL',
-    contactPhoneLabel: 'TELEFON',
-    contactSuccess: 'Takk — meldingen din er sendt.',
-    contactError: 'Noe gikk galt under sending. Prøv igjen eller send oss en e-post direkte.',
-  },
-};
-
 let lang = 'en';
 
 function renderI18n() {
@@ -101,7 +20,9 @@ function renderI18n() {
   });
 
   document.querySelectorAll('[data-lang-btn]').forEach((btn) => {
-    btn.classList.toggle('is-active', btn.getAttribute('data-lang-btn') === lang);
+    const isActive = btn.getAttribute('data-lang-btn') === lang;
+    btn.classList.toggle('is-active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
   });
 
   document.documentElement.lang = lang;
@@ -353,6 +274,12 @@ function playVideo() {
 }
 
 mediaVideoPoster.addEventListener('click', playVideo, { once: true });
+mediaVideoPoster.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    playVideo();
+  }
+}, { once: true });
 
 // ============ MEDIA — 3D gallery carousel ============
 
@@ -365,6 +292,7 @@ let galleryActive = 0;
 const galleryItemEls = GALLERY_IMAGES.map((src, i) => {
   const item = document.createElement('div');
   item.className = 'gallery-item';
+  item.setAttribute('role', 'button');
 
   const img = document.createElement('img');
   img.src = src;
@@ -372,11 +300,19 @@ const galleryItemEls = GALLERY_IMAGES.map((src, i) => {
   item.append(img);
   galleryTrack.append(item);
 
-  item.addEventListener('click', () => {
+  const activate = () => {
     if (i === galleryActive) {
       openLightbox(i);
     } else {
       galleryGoTo(i);
+    }
+  };
+
+  item.addEventListener('click', activate);
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      activate();
     }
   });
 
@@ -413,6 +349,8 @@ function renderGallery() {
     item.style.opacity = opacity;
     item.style.zIndex = zIndex;
     item.style.pointerEvents = visible ? 'auto' : 'none';
+    item.tabIndex = visible ? 0 : -1;
+    item.setAttribute('aria-label', offset === 0 ? `Photo ${i + 1} of ${n}, open in lightbox` : `Show photo ${i + 1} of ${n}`);
   });
 
   galleryDotEls.forEach((dot, i) => {
