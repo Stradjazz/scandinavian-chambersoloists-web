@@ -46,6 +46,85 @@ a {
   border-radius: 24px;
 }
 
+/*
+  Single static (non-scrolling) full-bleed background: a radial gradient
+  base, a heavily-blurred duotoned photo, 3 parallax-driven glow orbs,
+  and a subtle grain overlay. This layer intentionally has NO scroll
+  transform of its own — an earlier version moved multiple photo layers
+  at different scroll rates and it looked broken (hard edges where each
+  photo's fade zone ended). One static photo gives the glass cards'
+  backdrop-filter real imagery to refract; the orbs supply all the
+  scroll-reactive movement.
+*/
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse 120% 80% at 50% -10%, #1a1f30 0%, var(--color-bg) 55%, #07080d 100%);
+}
+
+.page-bg-photo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.22;
+}
+
+.page-bg-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: grayscale(1) contrast(1.1) blur(7px);
+}
+
+.page-bg-duotone {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-bg), var(--color-accent));
+  mix-blend-mode: color;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(10px);
+}
+
+.orb-slow {
+  width: 900px;
+  height: 900px;
+  left: -200px;
+  top: -100px;
+  background: radial-gradient(circle, rgba(212, 165, 116, 0.16) 0%, rgba(212, 165, 116, 0) 70%);
+}
+
+.orb-med {
+  width: 700px;
+  height: 700px;
+  right: -150px;
+  top: 35vh;
+  background: radial-gradient(circle, rgba(120, 140, 200, 0.14) 0%, rgba(120, 140, 200, 0) 70%);
+}
+
+.orb-fast {
+  width: 800px;
+  height: 800px;
+  left: 20vw;
+  top: 90vh;
+  background: radial-gradient(circle, rgba(212, 165, 116, 0.12) 0%, rgba(212, 165, 116, 0) 70%);
+}
+
+.page-bg-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0);
+  background-size: 3px 3px;
+}
+
 nav {
   position: fixed;
   top: 0;
@@ -144,18 +223,44 @@ nav {
 
 section {
   position: relative;
+  z-index: 1;
   min-height: 100vh;
   padding: 96px 32px 32px;
 }
 
 footer {
-  padding: 32px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 48px;
+  font: 400 12px/1 var(--font-body);
+  color: rgba(243, 239, 232, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-credit {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  opacity: 0.7;
+}
+
+.footer-credit-icon {
+  height: 20px;
+  width: auto;
+}
+
+.footer-credit span {
+  font: 400 11px/1.3 var(--font-body);
+  color: rgba(243, 239, 232, 0.6);
 }
 
 /* ============ HERO ============ */
 
 #hero {
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -279,7 +384,7 @@ footer {
   justify-content: flex-start;
 }
 
-.about-title {
+.section-title {
   font: 400 38px/1.2 var(--font-display);
   color: #fff;
   margin: 0;
@@ -375,4 +480,655 @@ footer {
   font: 500 10px/1.4 var(--font-body);
   letter-spacing: 0.1em;
   color: rgba(212, 165, 116, 0.85);
+}
+
+/* ============ CONCERTS ============ */
+
+#concerts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  padding: 60px 48px 140px;
+}
+
+.concerts-wrap {
+  max-width: 1180px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.section-heading {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.concerts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.concert-card {
+  background: var(--color-glass-surface);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.concert-card:hover,
+.concert-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(212, 165, 116, 0.45);
+}
+
+.concert-card-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
+.concert-card-body {
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.concert-card-datetime {
+  font: 600 12px/1.4 var(--font-body);
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+}
+
+.concert-card-location {
+  font: 400 12px/1.4 var(--font-body);
+  color: rgba(243, 239, 232, 0.55);
+}
+
+.concert-card-title {
+  font: 400 22px/1.35 var(--font-display);
+  color: #fff;
+  margin-top: 4px;
+}
+
+.concert-card-subtitle {
+  font: 400 13px/1.4 var(--font-body);
+  color: rgba(243, 239, 232, 0.5);
+}
+
+.concert-card-more {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font: 600 12px/1 var(--font-body);
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+}
+
+/* ============ CONCERT DETAIL MODAL ============ */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(6, 6, 9, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.concert-modal {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  max-height: calc(100vh - 64px);
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+.concert-modal-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.concert-modal-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.concert-modal-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 9, 14, 0.55) 0%, rgba(10, 11, 17, 0.88) 45%, rgba(9, 10, 15, 0.97) 100%);
+}
+
+.concert-modal-content {
+  position: relative;
+  padding: clamp(20px, 4vh, 44px) clamp(24px, 5vw, 44px) clamp(18px, 3.5vh, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.6vh, 18px);
+}
+
+.concert-modal-date {
+  font: 600 clamp(11px, 1.4vh, 12px)/1.4 var(--font-body);
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+}
+
+.concert-modal-title {
+  font: 400 clamp(20px, 4.2vh, 34px)/1.15 var(--font-display);
+  color: #fff;
+}
+
+.concert-modal-subtitle {
+  font: 400 clamp(12px, 1.5vh, 14px)/1.4 var(--font-body);
+  color: rgba(243, 239, 232, 0.6);
+  margin-top: 4px;
+}
+
+.concert-modal-location {
+  font: 500 clamp(11px, 1.4vh, 12px)/1.4 var(--font-body);
+  letter-spacing: 0.04em;
+  color: rgba(243, 239, 232, 0.7);
+}
+
+.concert-modal-description {
+  font: 400 clamp(12px, 1.6vh, 15px)/1.5 var(--font-body);
+  color: rgba(243, 239, 232, 0.78);
+  margin: 0;
+}
+
+.concert-modal-programme {
+  margin-top: clamp(4px, 1vh, 8px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.2vh, 10px);
+}
+
+.programme-label {
+  font: 600 clamp(10px, 1.2vh, 11px)/1 var(--font-body);
+  letter-spacing: 0.12em;
+  color: var(--color-accent);
+}
+
+.programme-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.9vh, 8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: clamp(6px, 1.2vh, 10px);
+}
+
+.programme-row {
+  display: flex;
+  gap: 10px;
+  font: 400 clamp(11px, 1.4vh, 14px)/1.5 var(--font-body);
+  color: rgba(243, 239, 232, 0.85);
+}
+
+.programme-row .programme-composer {
+  color: var(--color-fg);
+  font-weight: 600;
+}
+
+.programme-row .programme-sep {
+  color: rgba(243, 239, 232, 0.5);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font: 400 18px/1 var(--font-body);
+  cursor: pointer;
+}
+
+/* ============ MEDIA — video + gallery ============ */
+
+#media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  min-height: 0;
+  padding: 60px 48px 140px;
+}
+
+/*
+  Both media blocks are max-width:1180px wrappers that carry their own
+  padding/border directly (rather than putting padding on an inner
+  child), so per the README's box-sizing gotcha they must stay
+  box-sizing:border-box — covered by the global `*` reset, kept explicit
+  here since this is exactly the case that tripped up the original build.
+*/
+.media-video {
+  max-width: 1180px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.media-video-frame {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  min-height: 340px;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.media-video-poster {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.media-video-photo {
+  width: 100%;
+  height: 100%;
+}
+
+.media-video-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.media-video-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 7, 11, 0.25);
+  pointer-events: none;
+}
+
+.media-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.media-play-icon {
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-left: 22px solid #fff;
+  margin-left: 5px;
+}
+
+.media-video-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.media-copy {
+  padding: 48px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.media-title {
+  font: 400 30px/1.3 var(--font-display);
+  color: #fff;
+  margin: 0;
+}
+
+.media-body {
+  font: 400 15px/1.7 var(--font-body);
+  color: rgba(243, 239, 232, 0.65);
+  margin: 0;
+}
+
+.media-cta {
+  margin-top: 6px;
+  padding: 13px 26px;
+  background: rgba(212, 165, 116, 0.85);
+  color: var(--color-accent-ink);
+  font: 600 12px/1 var(--font-body);
+  letter-spacing: 0.05em;
+  border-radius: 10px;
+  width: max-content;
+  display: inline-block;
+}
+
+.gallery-block {
+  max-width: 1180px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 48px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+
+.gallery-title {
+  font: 400 32px/1.2 var(--font-display);
+  color: #fff;
+  margin: 0;
+}
+
+.gallery-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1600px;
+}
+
+.gallery-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260px;
+  height: 340px;
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.5s cubic-bezier(0.22, 0.9, 0.32, 1), opacity 0.5s ease;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #fff;
+  font: 400 20px/1 serif;
+  z-index: 20;
+}
+
+.gallery-prev {
+  left: 4px;
+}
+
+.gallery-next {
+  right: 4px;
+}
+
+.gallery-dots {
+  display: flex;
+  gap: 9px;
+}
+
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background 0.3s;
+}
+
+.gallery-dot.is-active {
+  background: var(--color-accent);
+}
+
+/* ============ LIGHTBOX ============ */
+
+.lightbox-backdrop {
+  background: rgba(6, 6, 9, 0.9);
+  padding: 40px;
+}
+
+.lightbox-frame {
+  position: relative;
+  max-width: 90vw;
+  max-height: 88vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-frame img {
+  display: block;
+  max-width: 90vw;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 28px;
+  right: 36px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font: 400 20px/1 var(--font-body);
+  cursor: pointer;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font: 400 22px/1 serif;
+  cursor: pointer;
+}
+
+.lightbox-prev {
+  left: 24px;
+}
+
+.lightbox-next {
+  right: 24px;
+}
+
+/* ============ CONTACT ============ */
+
+#contact {
+  display: flex;
+  justify-content: center;
+  min-height: 0;
+  padding: 60px 48px 120px;
+}
+
+.contact-grid {
+  max-width: 1180px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 40px;
+}
+
+.contact-form {
+  padding: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 15px 18px;
+  color: #fff;
+  font: 400 14px/1.5 var(--font-body);
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: rgba(243, 239, 232, 0.45);
+}
+
+textarea.form-input {
+  resize: vertical;
+}
+
+.contact-submit {
+  align-self: flex-start;
+  border: none;
+  cursor: pointer;
+}
+
+.contact-submit:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.form-status {
+  font: 500 13px/1.5 var(--font-body);
+  color: var(--color-accent);
+  min-height: 1.2em;
+}
+
+.form-status.is-error {
+  color: #e08787;
+}
+
+.contact-info {
+  padding: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: center;
+}
+
+.contact-info-label {
+  font: 600 12px/1.4 var(--font-body);
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
+  margin-bottom: 6px;
+}
+
+.contact-info-value {
+  font: 400 15px/1.5 var(--font-body);
+  color: rgba(243, 239, 232, 0.8);
+}
+
+.contact-socials {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.social-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-fg);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.social-icon:hover,
+.social-icon:focus-visible {
+  background: rgba(212, 165, 116, 0.18);
+  border-color: rgba(212, 165, 116, 0.45);
+}
+
+.social-icon .mdi {
+  font-size: 18px;
+  line-height: 1;
 }

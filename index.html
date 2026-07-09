@@ -7,9 +7,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <div class="page-bg">
+    <div class="page-bg-photo">
+      <img src="assets/hero-ensemble.jpg" alt="">
+      <div class="page-bg-duotone"></div>
+    </div>
+    <div class="orb orb-slow" id="orbSlow"></div>
+    <div class="orb orb-med" id="orbMed"></div>
+    <div class="orb orb-fast" id="orbFast"></div>
+    <div class="page-bg-grain"></div>
+  </div>
+
   <nav>
     <a href="#hero" class="nav-brand">
       <img src="assets/logo-amber.png" alt="Scandinavian Chamber Soloists logo" class="nav-logo">
@@ -64,21 +76,132 @@
         </div>
         <div class="glass bio-card">
           <div class="section-kicker" data-i18n="aboutKicker">WHO WE ARE</div>
-          <h2 class="about-title" data-i18n="aboutTitle">Musicians from five countries, one Kristiansand stage</h2>
+          <h2 class="section-title" data-i18n="aboutTitle">Musicians from five countries, one Kristiansand stage</h2>
           <p class="about-body" data-i18n="aboutBody1">Scandinavian Chamber Soloists is a Kristiansand-based ensemble comprised of musicians from Norway, Sweden, the Netherlands, Armenia and Japan.</p>
           <p class="about-body" data-i18n="aboutBody2">Founded and led by violinist Loussine Azizian Idsøe, the ensemble has toured Norway and Denmark to critical acclaim since its 2019 debut.</p>
           <a href="#contact" class="about-cta"><span data-i18n="aboutCta">Get in touch</span> →</a>
         </div>
       </div>
     </section>
-    <section id="concerts">Concerts</section>
-    <section id="media">Media</section>
-    <section id="contact">Contact</section>
+    <section id="concerts">
+      <div class="concerts-wrap">
+        <div class="section-heading">
+          <div class="section-kicker" data-i18n="concertsKicker">WHAT'S NEXT</div>
+          <h2 class="section-title" data-i18n="concertsTitle">Upcoming concerts</h2>
+        </div>
+        <div class="concerts-grid" id="concertsGrid"></div>
+      </div>
+    </section>
+    <section id="media">
+      <div class="glass media-video">
+        <div class="media-video-frame" id="mediaVideoFrame">
+          <div class="media-video-poster" id="mediaVideoPoster">
+            <div class="media-video-photo" id="mediaVideoPhoto">
+              <img src="assets/media-still.png" alt="Video still — performance in Trinitatis Church">
+            </div>
+            <div class="media-video-scrim"></div>
+            <div class="media-play-button" aria-hidden="true">
+              <span class="media-play-icon"></span>
+            </div>
+          </div>
+        </div>
+        <div class="media-copy">
+          <div class="section-kicker" data-i18n="mediaKicker">WATCH</div>
+          <h3 class="media-title" data-i18n="mediaTitle">Piazzolla's Spring, live in Trinitatis Church</h3>
+          <p class="media-body" data-i18n="mediaBody">Recorded live in Copenhagen, February 2020. The full performance features on our debut album.</p>
+          <a href="https://youtu.be/9v5GQ4DOOHY?si=Y2f6M0QgMsvjc1bP" target="_blank" rel="noopener" class="media-cta" data-i18n="mediaCta">Watch on YouTube</a>
+        </div>
+      </div>
+
+      <div class="glass gallery-block">
+        <div class="section-heading">
+          <div class="section-kicker" data-i18n="galleryKicker">GALLERY</div>
+          <h3 class="gallery-title" data-i18n="galleryTitle">From Grundtvig's Church, Copenhagen</h3>
+        </div>
+        <div class="gallery-carousel">
+          <div class="gallery-track" id="galleryTrack"></div>
+          <button type="button" class="gallery-nav-btn gallery-prev" id="galleryPrevBtn" aria-label="Previous photo">‹</button>
+          <button type="button" class="gallery-nav-btn gallery-next" id="galleryNextBtn" aria-label="Next photo">›</button>
+        </div>
+        <div class="gallery-dots" id="galleryDots"></div>
+      </div>
+    </section>
+    <section id="contact">
+      <div class="contact-grid">
+        <form class="glass contact-form" id="contactForm">
+          <h2 class="section-title" data-i18n="contactTitle">Drop us a message</h2>
+          <input type="hidden" name="source_site" value="Scandinavian Chamber Soloists">
+          <input type="text" name="name" class="form-input" data-i18n-placeholder="contactName" placeholder="Your name">
+          <input type="email" name="email" class="form-input" data-i18n-placeholder="contactEmail" placeholder="Email address">
+          <textarea name="message" rows="4" class="form-input" data-i18n-placeholder="contactMessage" placeholder="Message"></textarea>
+          <button type="submit" class="btn btn-filled contact-submit" data-i18n="contactSend">Send message</button>
+          <div class="form-status" id="contactFormStatus" role="status" aria-live="polite"></div>
+        </form>
+        <div class="glass contact-info">
+          <div class="contact-info-row">
+            <div class="contact-info-label" data-i18n="contactAddressLabel">ADDRESS</div>
+            <div class="contact-info-value">Kristiansand, Norway</div>
+          </div>
+          <div class="contact-info-row">
+            <div class="contact-info-label" data-i18n="contactEmailLabel">EMAIL</div>
+            <div class="contact-info-value">scandinavianchambersoloists@gmail.com</div>
+          </div>
+          <div class="contact-info-row">
+            <div class="contact-info-label" data-i18n="contactPhoneLabel">PHONE</div>
+            <div class="contact-info-value">+47 45171349, +45 26573399</div>
+          </div>
+          <div class="contact-socials">
+            <a href="https://www.facebook.com/scandinavianchambersoloists" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook"><span class="mdi mdi-facebook"></span></a>
+            <a href="https://www.instagram.com/scandinavianchambersoloists/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram"><span class="mdi mdi-instagram"></span></a>
+            <a href="https://www.youtube.com/channel/UCl2n34qTghdG1eIPVDA4jXg" target="_blank" rel="noopener" class="social-icon" aria-label="YouTube"><span class="mdi mdi-youtube"></span></a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer>Footer</footer>
+  <footer>
+    <a href="https://www.kulturdirektoratet.no/kulturradet" target="_blank" rel="noopener" class="footer-credit">
+      <img src="assets/arts-council-icon.png" alt="Arts Council Norway" class="footer-credit-icon">
+      <span data-i18n="supportedBy">Supported by Arts Council Norway</span>
+    </a>
+    <div class="footer-copyright">© 2026 Scandinavian Chamber Soloists</div>
+  </footer>
+
+  <div class="modal-backdrop" id="concertModalBackdrop" hidden>
+    <div class="concert-modal">
+      <div class="concert-modal-bg">
+        <img id="concertModalImage" src="" alt="">
+        <div class="concert-modal-gradient"></div>
+      </div>
+      <div class="concert-modal-content">
+        <div class="concert-modal-date" id="concertModalDate"></div>
+        <div>
+          <div class="concert-modal-title" id="concertModalTitle"></div>
+          <div class="concert-modal-subtitle" id="concertModalSubtitle"></div>
+        </div>
+        <div class="concert-modal-location" id="concertModalLocation"></div>
+        <p class="concert-modal-description" id="concertModalDescription"></p>
+        <div class="concert-modal-programme">
+          <div class="programme-label">PROGRAMME</div>
+          <div class="programme-list" id="concertModalProgramme"></div>
+        </div>
+      </div>
+      <button type="button" class="modal-close" id="concertModalClose" aria-label="Close">✕</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop lightbox-backdrop" id="lightboxBackdrop" hidden>
+    <div class="lightbox-frame">
+      <img id="lightboxImage" src="" alt="">
+    </div>
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+    <button type="button" class="lightbox-nav lightbox-prev" id="lightboxPrevBtn" aria-label="Previous photo">‹</button>
+    <button type="button" class="lightbox-nav lightbox-next" id="lightboxNextBtn" aria-label="Next photo">›</button>
+  </div>
 
   <script src="scripts/data.js"></script>
   <script src="scripts/main.js"></script>
+  <script src="scripts/contact.js"></script>
 </body>
 </html>
