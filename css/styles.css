@@ -1204,11 +1204,14 @@ textarea.form-input {
 /* ============================================================
    RESPONSIVE
    The design reference was a fixed-desktop export with no mobile
-   layout specified anywhere, so everything below is new: the nav
-   collapses into a hamburger dropdown, every multi-column grid
-   stacks to one column, type scale/padding shrink, and the 3D
-   gallery carousel switches to smaller JS-driven card dimensions
-   (see the GALLERY_CARD constants in scripts/main.js) to match.
+   layout specified anywhere, so everything below is new. Two tiers:
+   tablet (<=860px) keeps a real margin around each section's cards;
+   phone (<=560px) shrinks that margin further so cards read as
+   effectively full-width. Note: #hero/#about/#concerts/#media/#contact
+   each carry their own ID-selector padding rule earlier in this file,
+   which beats a plain `section {...}` override on specificity alone —
+   so every override below targets those IDs directly rather than the
+   bare `section` element, or it would silently no-op.
    ============================================================ */
 
 @media (max-width: 860px) {
@@ -1260,12 +1263,15 @@ textarea.form-input {
     margin-top: 4px;
   }
 
-  section {
-    padding: 88px 24px 48px;
+  #hero {
+    padding: 112px 24px 48px;
   }
 
-  #hero {
-    padding: 120px 20px 56px;
+  #about,
+  #concerts,
+  #media,
+  #contact {
+    padding: 56px 32px 64px;
   }
 
   .hero-card {
@@ -1323,16 +1329,41 @@ textarea.form-input {
   }
 }
 
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: 30px;
+/*
+  Phone tier: cards go (nearly) full-bleed — a small 12px gutter so the
+  glass cards' rounded corners/shadow still read as cards rather than
+  looking clipped, instead of tablet's much larger 32px side margin.
+*/
+@media (max-width: 560px) {
+  #hero {
+    padding: 100px 12px 40px;
+  }
+
+  #about,
+  #concerts,
+  #media,
+  #contact {
+    padding: 48px 12px 48px;
   }
 
   .about-grid,
   .contact-grid,
   .concerts-grid,
   .media-video {
-    gap: 20px;
+    gap: 16px;
+  }
+
+  .hero-card {
+    padding: 28px 20px;
+  }
+
+  .hero-title {
+    font-size: 30px;
+  }
+
+  .musicians-card,
+  .bio-card {
+    padding: 24px 20px;
   }
 
   .concert-card-body {
@@ -1342,5 +1373,13 @@ textarea.form-input {
   .contact-form,
   .contact-info {
     padding: 24px 20px;
+  }
+
+  .media-copy {
+    padding: 24px 20px;
+  }
+
+  .gallery-block {
+    padding: 28px 12px 24px;
   }
 }
