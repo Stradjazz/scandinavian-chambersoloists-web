@@ -20,6 +20,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden;
   background: var(--color-bg);
   color: var(--color-fg);
   font-family: var(--font-body);
@@ -169,6 +170,31 @@ nav {
   font: 600 12px/1.3 var(--font-body);
   letter-spacing: 0.14em;
   color: var(--color-fg);
+}
+
+/*
+  On desktop, .nav-menu is invisible to layout (display: contents) so its
+  two children (.nav-credit, .nav-right) participate directly in nav's own
+  3-column grid, exactly as if they weren't wrapped. Below the mobile
+  breakpoint this wrapper becomes a real collapsible dropdown panel.
+*/
+.nav-menu {
+  display: contents;
+}
+
+.nav-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: var(--color-fg);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  justify-self: end;
 }
 
 .nav-credit {
@@ -890,14 +916,16 @@ footer {
   position: relative;
   width: 100%;
   height: 100%;
+  --gallery-card-w: 260px;
+  --gallery-card-h: 340px;
 }
 
 .gallery-item {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 260px;
-  height: 340px;
+  width: var(--gallery-card-w);
+  height: var(--gallery-card-h);
   cursor: pointer;
   border-radius: 14px;
   overflow: hidden;
@@ -1170,5 +1198,149 @@ textarea.form-input {
   .media-play-button,
   .gallery-nav-btn {
     background: rgba(20, 20, 26, 0.75);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE
+   The design reference was a fixed-desktop export with no mobile
+   layout specified anywhere, so everything below is new: the nav
+   collapses into a hamburger dropdown, every multi-column grid
+   stacks to one column, type scale/padding shrink, and the 3D
+   gallery carousel switches to smaller JS-driven card dimensions
+   (see the GALLERY_CARD constants in scripts/main.js) to match.
+   ============================================================ */
+
+@media (max-width: 860px) {
+  nav {
+    grid-template-columns: 1fr auto;
+    padding: 12px 20px;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(15, 17, 26, 0.97);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+
+  #siteNav.is-open .nav-menu {
+    display: flex;
+  }
+
+  .nav-credit {
+    justify-self: unset;
+    padding: 18px 20px 8px;
+  }
+
+  .nav-right {
+    justify-self: unset;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 8px 20px 24px;
+  }
+
+  .lang-toggle {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-left: 0;
+    padding-top: 14px;
+    margin-top: 4px;
+  }
+
+  section {
+    padding: 88px 24px 48px;
+  }
+
+  #hero {
+    padding: 120px 20px 56px;
+  }
+
+  .hero-card {
+    padding: 36px 28px;
+    gap: 18px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .section-title {
+    font-size: 30px;
+  }
+
+  .about-grid,
+  .contact-grid,
+  .concerts-grid,
+  .media-video {
+    grid-template-columns: 1fr;
+  }
+
+  .media-video-frame {
+    min-height: 0;
+  }
+
+  .media-copy {
+    padding: 28px 24px;
+  }
+
+  .media-title {
+    font-size: 24px;
+  }
+
+  .gallery-block {
+    padding: 32px 16px 28px;
+  }
+
+  .gallery-title {
+    font-size: 26px;
+  }
+
+  .gallery-carousel {
+    height: 300px;
+  }
+
+  .contact-form,
+  .contact-info {
+    padding: 32px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 30px;
+  }
+
+  .about-grid,
+  .contact-grid,
+  .concerts-grid,
+  .media-video {
+    gap: 20px;
+  }
+
+  .concert-card-body {
+    padding: 20px;
+  }
+
+  .contact-form,
+  .contact-info {
+    padding: 24px 20px;
   }
 }

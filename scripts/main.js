@@ -44,6 +44,35 @@ document.querySelectorAll('[data-lang-btn]').forEach((btn) => {
 
 renderI18n();
 
+// ============ MOBILE NAV ============
+
+const siteNav = document.getElementById('siteNav');
+const navToggle = document.getElementById('navToggle');
+const navToggleIcon = document.getElementById('navToggleIcon');
+const navMenu = document.getElementById('navMenu');
+
+function setNavOpen(open) {
+  siteNav.classList.toggle('is-open', open);
+  navToggle.setAttribute('aria-expanded', String(open));
+  navToggleIcon.className = open ? 'mdi mdi-close' : 'mdi mdi-menu';
+}
+
+navToggle.addEventListener('click', () => {
+  setNavOpen(!siteNav.classList.contains('is-open'));
+});
+
+navMenu.addEventListener('click', (e) => {
+  if (e.target.closest('a')) setNavOpen(false);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') setNavOpen(false);
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 860) setNavOpen(false);
+});
+
 // ============ ABOUT — musician glass-sphere field ============
 
 function smoothstep(t) {
@@ -329,8 +358,24 @@ const galleryDotEls = GALLERY_IMAGES.map((_, i) => {
   return dot;
 });
 
+// Desktop card is 260x340 with a 190px translateX step per offset; below
+// that, shrink all three together (keeping the same ratios) so the
+// coverflow still fits and reads cleanly on narrow viewports.
+function getGalleryCardSize() {
+  const vw = window.innerWidth;
+  const width = vw <= 480 ? 160 : vw <= 860 ? 200 : 260;
+  return {
+    width,
+    height: Math.round((width * 340) / 260),
+    step: Math.round((width * 190) / 260),
+  };
+}
+
 function renderGallery() {
   const n = GALLERY_IMAGES.length;
+  const { width, height, step } = getGalleryCardSize();
+  galleryTrack.style.setProperty('--gallery-card-w', `${width}px`);
+  galleryTrack.style.setProperty('--gallery-card-h', `${height}px`);
 
   galleryItemEls.forEach((item, i) => {
     let offset = i - galleryActive;
@@ -339,7 +384,7 @@ function renderGallery() {
     const abs = Math.abs(offset);
     const visible = abs <= 3;
 
-    const translateX = offset * 190;
+    const translateX = offset * step;
     const rotateY = offset * -32;
     const scale = abs === 0 ? 1 : Math.max(0.55, 1 - abs * 0.16);
     const opacity = visible ? Math.max(0, 1 - abs * 0.32) : 0;
@@ -368,6 +413,12 @@ galleryPrevBtn.addEventListener('click', () => galleryGoTo(galleryActive - 1));
 galleryNextBtn.addEventListener('click', () => galleryGoTo(galleryActive + 1));
 
 renderGallery();
+
+let galleryResizeTimeout = null;
+window.addEventListener('resize', () => {
+  clearTimeout(galleryResizeTimeout);
+  galleryResizeTimeout = setTimeout(renderGallery, 150);
+});
 
 // ============ LIGHTBOX ============
 

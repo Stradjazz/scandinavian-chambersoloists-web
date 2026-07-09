@@ -22,26 +22,32 @@
     <div class="page-bg-grain"></div>
   </div>
 
-  <nav>
+  <nav id="siteNav">
     <a href="#hero" class="nav-brand">
       <img src="assets/logo-amber.png" alt="Scandinavian Chamber Soloists logo" class="nav-logo">
       <span class="nav-wordmark">SCANDINAVIAN<br>CHAMBER SOLOISTS</span>
     </a>
 
-    <a href="https://www.kulturdirektoratet.no/kulturradet" target="_blank" rel="noopener" class="nav-credit">
-      <img src="assets/arts-council-icon.png" alt="Arts Council Norway" class="nav-credit-icon">
-      <span data-i18n="supportedBy">Supported by Arts Council Norway</span>
-    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
+      <span class="mdi mdi-menu" id="navToggleIcon"></span>
+    </button>
 
-    <div class="nav-right">
-      <a href="#hero" data-i18n="navHome">Home</a>
-      <a href="#about" data-i18n="navAbout">About</a>
-      <a href="#concerts" data-i18n="navConcerts">Concerts</a>
-      <a href="#media" data-i18n="navMedia">Media</a>
-      <a href="#contact" data-i18n="navContact">Contact</a>
-      <div class="lang-toggle">
-        <button type="button" class="lang-pill" data-lang-btn="en">EN</button>
-        <button type="button" class="lang-pill" data-lang-btn="no">NO</button>
+    <div class="nav-menu" id="navMenu">
+      <a href="https://www.kulturdirektoratet.no/kulturradet" target="_blank" rel="noopener" class="nav-credit">
+        <img src="assets/arts-council-icon.png" alt="Arts Council Norway" class="nav-credit-icon">
+        <span data-i18n="supportedBy">Supported by Arts Council Norway</span>
+      </a>
+
+      <div class="nav-right">
+        <a href="#hero" data-i18n="navHome">Home</a>
+        <a href="#about" data-i18n="navAbout">About</a>
+        <a href="#concerts" data-i18n="navConcerts">Concerts</a>
+        <a href="#media" data-i18n="navMedia">Media</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+        <div class="lang-toggle">
+          <button type="button" class="lang-pill" data-lang-btn="en">EN</button>
+          <button type="button" class="lang-pill" data-lang-btn="no">NO</button>
+        </div>
       </div>
     </div>
   </nav>
