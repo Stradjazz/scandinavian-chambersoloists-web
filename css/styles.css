@@ -1,0 +1,378 @@
+:root {
+  --color-bg: #0b0d14;
+  --color-fg: #f3efe8;
+  --color-accent: #d4a574;
+  --color-accent-ink: #181104;
+  --color-glass-surface: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/*
+  Glass card recipe (README Design Tokens). Any element using this class
+  carries its own padding/border, so it MUST stay box-sizing: border-box
+  (covered by the global `*` rule above) — otherwise, on a wrapper that
+  also has a max-width cap, the padding/border render outside that cap
+  and the section reads wider than its siblings. Put padding on an inner
+  child instead if a wrapper ever needs to be content-box for some reason.
+*/
+.glass {
+  background: var(--color-glass-surface);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 24px;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 48px;
+  background: rgba(15, 17, 26, 0.45);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-self: start;
+}
+
+.nav-logo {
+  width: 34px;
+  height: 34px;
+  display: block;
+}
+
+.nav-wordmark {
+  font: 600 12px/1.3 var(--font-body);
+  letter-spacing: 0.14em;
+  color: var(--color-fg);
+}
+
+.nav-credit {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  opacity: 0.85;
+}
+
+.nav-credit-icon {
+  height: 22px;
+  width: auto;
+}
+
+.nav-credit span {
+  font: 500 11px/1.3 var(--font-body);
+  color: var(--color-fg);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  font: 500 13px/1 var(--font-body);
+  letter-spacing: 0.03em;
+  color: rgba(243, 239, 232, 0.75);
+  justify-self: end;
+}
+
+.nav-right a {
+  transition: color 0.2s;
+}
+
+.nav-right a:hover,
+.nav-right a:focus-visible {
+  color: var(--color-fg);
+}
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  font: 600 11px/1 var(--font-body);
+}
+
+.lang-pill {
+  padding: 5px 9px;
+  border-radius: 14px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: rgba(243, 239, 232, 0.6);
+  font: inherit;
+}
+
+.lang-pill.is-active {
+  background: rgba(212, 165, 116, 0.85);
+  color: var(--color-accent-ink);
+}
+
+section {
+  position: relative;
+  min-height: 100vh;
+  padding: 96px 32px 32px;
+}
+
+footer {
+  padding: 32px;
+}
+
+/* ============ HERO ============ */
+
+#hero {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 140px 48px 80px;
+  overflow: hidden;
+}
+
+.hero-photo {
+  position: absolute;
+  width: min(60vw, 760px);
+  height: min(60vw, 760px);
+  right: -8%;
+  top: 8%;
+  border-radius: 50%;
+  overflow: hidden;
+  opacity: 0.5;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0) contrast(1.1);
+}
+
+.hero-card {
+  position: relative;
+  max-width: 760px;
+  width: 100%;
+  padding: 64px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+.section-kicker {
+  font: 500 13px/1 var(--font-body);
+  letter-spacing: 0.16em;
+  color: var(--color-accent);
+}
+
+.hero-title {
+  font: 400 54px/1.2 var(--font-display);
+  color: #fff;
+  margin: 0;
+}
+
+.hero-quote {
+  margin: 0;
+  font: 400 15px/1.5 var(--font-body);
+  color: rgba(243, 239, 232, 0.65);
+  border-left: 2px solid rgba(212, 165, 116, 0.6);
+  padding-left: 16px;
+}
+
+.hero-quote cite {
+  display: block;
+  margin-top: 6px;
+  font: 500 12px/1.4 var(--font-body);
+  letter-spacing: 0.05em;
+  color: rgba(243, 239, 232, 0.45);
+  font-style: normal;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.btn {
+  padding: 14px 30px;
+  font: 600 13px/1 var(--font-body);
+  letter-spacing: 0.05em;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.btn-filled {
+  background: rgba(212, 165, 116, 0.85);
+  color: var(--color-accent-ink);
+}
+
+.btn-outline {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+/* ============ ABOUT ============ */
+
+#about {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 0;
+  padding: 60px 48px 140px;
+}
+
+.about-grid {
+  max-width: 1180px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: stretch;
+}
+
+.musicians-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.bio-card {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.about-title {
+  font: 400 38px/1.2 var(--font-display);
+  color: #fff;
+  margin: 0;
+}
+
+.about-body {
+  font: 400 16px/1.7 var(--font-body);
+  color: rgba(243, 239, 232, 0.72);
+  margin: 0;
+}
+
+.about-cta {
+  margin-top: 8px;
+  font: 600 13px/1 var(--font-body);
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
+  border-bottom: 1px solid rgba(212, 165, 116, 0.5);
+  width: max-content;
+  padding-bottom: 4px;
+}
+
+.sphere-field {
+  position: relative;
+  width: 100%;
+  height: 380px;
+}
+
+.musician-sphere {
+  position: absolute;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1);
+  cursor: pointer;
+}
+
+.musician-sphere-clip {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  transition: box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), border-color 0.35s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.musician-sphere-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.musician-sphere-highlight,
+.musician-sphere-shade,
+.musician-sphere-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.musician-sphere-highlight {
+  background: radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 45%);
+  mix-blend-mode: screen;
+}
+
+.musician-sphere-shade {
+  background: radial-gradient(circle at 70% 82%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 55%);
+  mix-blend-mode: multiply;
+}
+
+.musician-sphere-rim {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3), inset 0 -10px 18px rgba(0, 0, 0, 0.4);
+}
+
+.musician-caption {
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.musician-caption-name {
+  font: 500 15px/1.3 var(--font-display);
+  color: #fff;
+  transition: opacity 0.2s;
+}
+
+.musician-caption-instrument {
+  font: 500 10px/1.4 var(--font-body);
+  letter-spacing: 0.1em;
+  color: rgba(212, 165, 116, 0.85);
+}

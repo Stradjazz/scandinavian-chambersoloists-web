@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scandinavian Chamber Soloists</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav>
+    <a href="#hero" class="nav-brand">
+      <img src="assets/logo-amber.png" alt="Scandinavian Chamber Soloists logo" class="nav-logo">
+      <span class="nav-wordmark">SCANDINAVIAN<br>CHAMBER SOLOISTS</span>
+    </a>
+
+    <a href="https://www.kulturdirektoratet.no/kulturradet" target="_blank" rel="noopener" class="nav-credit">
+      <img src="assets/arts-council-icon.png" alt="Arts Council Norway" class="nav-credit-icon">
+      <span data-i18n="supportedBy">Supported by Arts Council Norway</span>
+    </a>
+
+    <div class="nav-right">
+      <a href="#hero" data-i18n="navHome">Home</a>
+      <a href="#about" data-i18n="navAbout">About</a>
+      <a href="#concerts" data-i18n="navConcerts">Concerts</a>
+      <a href="#media" data-i18n="navMedia">Media</a>
+      <a href="#contact" data-i18n="navContact">Contact</a>
+      <div class="lang-toggle">
+        <button type="button" class="lang-pill" data-lang-btn="en">EN</button>
+        <button type="button" class="lang-pill" data-lang-btn="no">NO</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="hero">
+      <div class="hero-photo">
+        <img src="assets/hero-ensemble.jpg" alt="">
+      </div>
+      <div class="hero-card glass">
+        <div class="section-kicker" data-i18n="heroKicker">SCANDINAVIAN CHAMBER SOLOISTS</div>
+        <h1 class="hero-title" data-i18n="heroTitle">Chamber music of international dimensions</h1>
+        <blockquote class="hero-quote">
+          <span data-i18n="heroQuote">&quot;A melting pot of talent from all over the world&quot; — the ensemble's sound has been called a mini world of stringed instruments.</span>
+          <cite data-i18n="heroQuoteSource">EMIL OTTO SYVERTSEN, FÆDRELANDSVENNEN</cite>
+        </blockquote>
+        <div class="hero-ctas">
+          <a href="#about" class="btn btn-filled" data-i18n="heroCta1">About the ensemble</a>
+          <a href="#concerts" class="btn btn-outline" data-i18n="heroCta2">See concerts</a>
+        </div>
+      </div>
+    </section>
+    <section id="about">
+      <div class="about-grid">
+        <div class="glass musicians-card">
+          <div class="section-kicker" data-i18n="musiciansKicker">THE MUSICIANS</div>
+          <div class="sphere-field" id="sphereField"></div>
+          <div class="musician-caption">
+            <div class="musician-caption-name" id="musicianCaptionName"></div>
+            <div class="musician-caption-instrument" id="musicianCaptionInstrument"></div>
+          </div>
+        </div>
+        <div class="glass bio-card">
+          <div class="section-kicker" data-i18n="aboutKicker">WHO WE ARE</div>
+          <h2 class="about-title" data-i18n="aboutTitle">Musicians from five countries, one Kristiansand stage</h2>
+          <p class="about-body" data-i18n="aboutBody1">Scandinavian Chamber Soloists is a Kristiansand-based ensemble comprised of musicians from Norway, Sweden, the Netherlands, Armenia and Japan.</p>
+          <p class="about-body" data-i18n="aboutBody2">Founded and led by violinist Loussine Azizian Idsøe, the ensemble has toured Norway and Denmark to critical acclaim since its 2019 debut.</p>
+          <a href="#contact" class="about-cta"><span data-i18n="aboutCta">Get in touch</span> →</a>
+        </div>
+      </div>
+    </section>
+    <section id="concerts">Concerts</section>
+    <section id="media">Media</section>
+    <section id="contact">Contact</section>
+  </main>
+
+  <footer>Footer</footer>
+
+  <script src="scripts/data.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
