@@ -24,13 +24,21 @@ let concertsData = [];
 let concertsLoadFailed = false;
 
 // Converts a Google Drive share link (.../file/d/FILE_ID/view or
-// ?id=FILE_ID) into a direct-viewable image URL. Falls back to the raw
+// ?id=FILE_ID) into a direct-embeddable image URL. Falls back to the raw
 // value for anything that isn't a recognized Drive link (e.g. already a
 // plain image URL), so this stays a no-op for non-Drive sources.
+//
+// Deliberately uses the /thumbnail endpoint rather than /uc?export=view:
+// the latter serves Cross-Origin-Resource-Policy: same-site on its final
+// response, which browsers (not curl/server-side fetches) enforce and
+// silently block as a broken <img> — confirmed by testing both endpoints
+// directly. /thumbnail is Google's own embed-friendly endpoint and
+// carries no such restriction. sz=w1000 caps the width; raise it if a
+// sharper image is ever needed.
 function driveImageUrl(url) {
   if (!url) return '';
   const match = url.match(/\/d\/([\w-]{10,})/) || url.match(/[?&]id=([\w-]{10,})/);
-  return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : url;
+  return match ? `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000` : url;
 }
 
 function normalizeProgrammeEntry(entry) {
@@ -47,10 +55,10 @@ function normalizeConcert(row, index) {
     title: row.Title || '',
     subtitle: row.Subtitle || '',
     description: row.Description || '',
-    date: row.Date || '',
+    date: row['Date & Time'] || '',
     location: row.Location || '',
     tickets: row.Tickets || '',
-    image: driveImageUrl(row.Image || ''),
+    image: driveImageUrl(row['Image Link'] || ''),
     programme: Array.isArray(row.Program) ? row.Program.map(normalizeProgrammeEntry) : [],
   };
 }
