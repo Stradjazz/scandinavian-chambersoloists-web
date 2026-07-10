@@ -35,6 +35,7 @@ function setLang(nextLang) {
   renderI18n();
   renderSpheres(currentSphereMouse);
   refreshConcertsUI();
+  renderHeroQuote();
 }
 
 document.querySelectorAll('[data-lang-btn]').forEach((btn) => {
@@ -71,6 +72,55 @@ document.addEventListener('keydown', (e) => {
 window.addEventListener('resize', () => {
   if (window.innerWidth > 860) setNavOpen(false);
 });
+
+// ============ HERO — rotating pull-quote ============
+
+const heroQuoteEl = document.getElementById('heroQuote');
+const heroQuoteText = document.getElementById('heroQuoteText');
+const heroQuoteSourceEl = document.getElementById('heroQuoteSourceEl');
+const HERO_QUOTE_INTERVAL_MS = 7000;
+const HERO_QUOTE_FADE_MS = 400;
+let heroQuoteIndex = 0;
+let heroQuoteMaxHeight = 0;
+let heroQuoteTimer = null;
+
+function renderHeroQuote() {
+  const quote = HERO_QUOTES[heroQuoteIndex];
+  heroQuoteText.textContent = lang === 'no' ? quote.textNo : quote.textEn;
+  heroQuoteSourceEl.textContent = quote.source;
+
+  // Reserve the tallest height seen so far so the hero card doesn't
+  // visibly resize as shorter/longer quotes rotate in.
+  requestAnimationFrame(() => {
+    const height = heroQuoteEl.scrollHeight;
+    if (height > heroQuoteMaxHeight) {
+      heroQuoteMaxHeight = height;
+      heroQuoteEl.style.minHeight = `${heroQuoteMaxHeight}px`;
+    }
+  });
+}
+
+function advanceHeroQuote() {
+  heroQuoteEl.classList.add('is-fading');
+  setTimeout(() => {
+    heroQuoteIndex = (heroQuoteIndex + 1) % HERO_QUOTES.length;
+    renderHeroQuote();
+    heroQuoteEl.classList.remove('is-fading');
+  }, HERO_QUOTE_FADE_MS);
+}
+
+const heroQuoteReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+function startHeroQuoteRotation() {
+  clearInterval(heroQuoteTimer);
+  heroQuoteTimer = heroQuoteReducedMotion.matches
+    ? null
+    : setInterval(advanceHeroQuote, HERO_QUOTE_INTERVAL_MS);
+}
+
+renderHeroQuote();
+startHeroQuoteRotation();
+heroQuoteReducedMotion.addEventListener('change', startHeroQuoteRotation);
 
 // ============ ABOUT — musician glass-sphere field ============
 

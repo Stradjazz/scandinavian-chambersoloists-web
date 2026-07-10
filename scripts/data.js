@@ -13,8 +13,6 @@ const DICTIONARY = {
     supportedBy: 'Supported by Arts Council Norway',
     heroKicker: 'SCANDINAVIAN CHAMBER SOLOISTS',
     heroTitle: 'Chamber music of international dimensions',
-    heroQuote: '"A melting pot of talent from all over the world" — the ensemble\'s sound has been called a mini world of stringed instruments.',
-    heroQuoteSource: 'EMIL OTTO SYVERTSEN, FÆDRELANDSVENNEN',
     heroCta1: 'About the ensemble',
     heroCta2: 'See concerts',
     aboutKicker: 'WHO WE ARE',
@@ -55,8 +53,6 @@ const DICTIONARY = {
     supportedBy: 'Støttet af Kulturrådet',
     heroKicker: 'SCANDINAVIAN CHAMBER SOLOISTS',
     heroTitle: 'Kammermusikk av internasjonal klasse',
-    heroQuote: '«En smeltedigel av talent fra hele verden» — ensemblets klang er blitt kalt en mini-verden av strengeinstrumenter.',
-    heroQuoteSource: 'EMIL OTTO SYVERTSEN, FÆDRELANDSVENNEN',
     heroCta1: 'Om ensemblet',
     heroCta2: 'Se konserter',
     aboutKicker: 'HVEM ER VI',
@@ -89,6 +85,26 @@ const DICTIONARY = {
     contactError: 'Noe gikk galt under sending. Prøv igjen eller send oss en e-post direkte.',
   },
 };
+
+// Hero pull-quotes, rotated by scripts/main.js. Wording/source is a direct
+// press citation — kept verbatim per language, not paraphrased.
+const HERO_QUOTES = [
+  {
+    textEn: '"Chamber music of international dimensions"',
+    textNo: '"Kammermusikk av internasjonal klasse"',
+    source: 'EMIL OTTO SYVERTSEN, FÆDRELANDSVENNEN',
+  },
+  {
+    textEn: '"A melting pot of talent from all over the world, a mini-FN with stringed instruments"',
+    textNo: '"en smeltedigel af talent fra hele verden, et mini-FN med strenge instrumenter"',
+    source: 'AVISEN.NU',
+  },
+  {
+    textEn: '"Loussine Azizian, the Danish-Armenian violinist, stole the spotlight with her dazzling technique and emotional playing. She has a sound that can make one think, \'Is it a Stradivarius or just pure, unadulterated talent?\'"',
+    textNo: '"Loussine Azizian, den dansk-armenske violinist, stjal spotlightet med sin blændende teknik og følelsesladede spil. Hun har en klang, der kan få en til at tænke, \'Er det en Stradivarius eller bare ren, uforfalsket talent?\'"',
+    source: 'AVISEN.NU',
+  },
+];
 
 // base layout: xPct/sizePct are % of the field's live width (responsive); y is px against the fixed-height field
 const MUSICIANS = [
