@@ -4,7 +4,7 @@
 // Google Sheet-backed Web App URL that serves the concerts list as a JSON
 // array of { Title, Subtitle, Description, Date, Location, Tickets, Image,
 // Program } rows.
-const CONCERTS_API_URL = 'PASTE_YOUR_CONCERTS_WEB_APP_URL_HERE';
+const CONCERTS_API_URL = 'https://script.google.com/macros/s/AKfycbydh93ImE64VfF9U4_E5ccNQIl0bwpyxpXMsCsNduRh9KmeKPzc6Cii1Rqy9LYDcYwT/exec';
 
 const concertsGrid = document.getElementById('concertsGrid');
 const concertModalBackdrop = document.getElementById('concertModalBackdrop');
