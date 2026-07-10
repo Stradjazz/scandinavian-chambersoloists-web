@@ -34,8 +34,7 @@ function setLang(nextLang) {
   lang = nextLang;
   renderI18n();
   renderSpheres(currentSphereMouse);
-  renderConcertCards();
-  if (openConcertId) renderConcertModal(openConcertId);
+  refreshConcertsUI();
 }
 
 document.querySelectorAll('[data-lang-btn]').forEach((btn) => {
@@ -177,114 +176,6 @@ sphereField.addEventListener('mouseleave', () => {
 });
 
 renderSpheres(null);
-
-// ============ CONCERTS — cards + detail modal ============
-
-const concertsGrid = document.getElementById('concertsGrid');
-const concertModalBackdrop = document.getElementById('concertModalBackdrop');
-const concertModalImage = document.getElementById('concertModalImage');
-const concertModalDate = document.getElementById('concertModalDate');
-const concertModalTitle = document.getElementById('concertModalTitle');
-const concertModalSubtitle = document.getElementById('concertModalSubtitle');
-const concertModalLocation = document.getElementById('concertModalLocation');
-const concertModalDescription = document.getElementById('concertModalDescription');
-const concertModalProgramme = document.getElementById('concertModalProgramme');
-const concertModalClose = document.getElementById('concertModalClose');
-let openConcertId = null;
-
-function renderConcertCards() {
-  concertsGrid.innerHTML = '';
-
-  CONCERTS[lang].forEach((concert) => {
-    const card = document.createElement('div');
-    card.className = 'concert-card';
-    card.tabIndex = 0;
-    card.setAttribute('role', 'button');
-
-    const image = document.createElement('img');
-    image.className = 'concert-card-image';
-    image.src = concert.image;
-    image.alt = concert.title;
-
-    const body = document.createElement('div');
-    body.className = 'concert-card-body';
-
-    const datetime = document.createElement('div');
-    datetime.className = 'concert-card-datetime';
-    datetime.textContent = `${concert.date} · ${concert.time}`;
-
-    const location = document.createElement('div');
-    location.className = 'concert-card-location';
-    location.textContent = concert.location;
-
-    const title = document.createElement('div');
-    title.className = 'concert-card-title';
-    title.textContent = concert.title;
-
-    const subtitle = document.createElement('div');
-    subtitle.className = 'concert-card-subtitle';
-    subtitle.textContent = concert.subtitle;
-
-    const more = document.createElement('div');
-    more.className = 'concert-card-more';
-    more.innerHTML = `<span>${DICTIONARY[lang].concertReadMore}</span><span>→</span>`;
-
-    body.append(datetime, location, title, subtitle, more);
-    card.append(image, body);
-    concertsGrid.append(card);
-
-    card.addEventListener('click', () => openConcertModal(concert.id));
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openConcertModal(concert.id);
-      }
-    });
-  });
-}
-
-function renderConcertModal(id) {
-  const concert = CONCERTS[lang].find((c) => c.id === id);
-  if (!concert) return;
-
-  concertModalImage.src = concert.image;
-  concertModalImage.alt = concert.title;
-  concertModalDate.textContent = `${concert.date} · ${concert.time}`;
-  concertModalTitle.textContent = concert.title;
-  concertModalSubtitle.textContent = concert.subtitle;
-  concertModalLocation.textContent = concert.location;
-  concertModalDescription.textContent = concert.description;
-
-  concertModalProgramme.innerHTML = '';
-  concert.programme.forEach((p) => {
-    const row = document.createElement('div');
-    row.className = 'programme-row';
-    row.innerHTML = `<span class="programme-composer">${p.composer}</span><span class="programme-sep">—</span><span>${p.piece}</span>`;
-    concertModalProgramme.append(row);
-  });
-}
-
-function openConcertModal(id) {
-  openConcertId = id;
-  renderConcertModal(id);
-  concertModalBackdrop.hidden = false;
-}
-
-function closeConcertModal() {
-  openConcertId = null;
-  concertModalBackdrop.hidden = true;
-}
-
-concertModalBackdrop.addEventListener('click', closeConcertModal);
-concertModalClose.addEventListener('click', (e) => {
-  e.stopPropagation();
-  closeConcertModal();
-});
-concertModalBackdrop.querySelector('.concert-modal').addEventListener('click', (e) => {
-  e.stopPropagation();
-});
-
-renderConcertCards();
 
 // ============ MEDIA — video ============
 

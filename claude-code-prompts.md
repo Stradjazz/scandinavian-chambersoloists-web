@@ -17,6 +17,7 @@ original said "component," "React state," or a Tailwind utility, read it as
 ---
 
 ### 0. Orient
+
 ```
 Read README.md and open design-reference.html in a browser preview. This
 is a design reference for a chamber-music ensemble's homepage — read the
@@ -29,6 +30,7 @@ page structure back to me in a few sentences before we start building.
 ```
 
 ### 1. Scaffold ✅ (done)
+
 ```
 Create a plain static index.html with five semantic sections in source
 order: <section id="hero">, <section id="about">, <section id="concerts">,
@@ -41,6 +43,7 @@ section as you scroll — skeleton only.
 ```
 
 ### 2. Tokens & fonts
+
 ```
 Add CSS custom properties to css/styles.css's :root matching README's
 Design Tokens section exactly: --color-bg #0b0d14, --color-fg #f3efe8,
@@ -58,6 +61,7 @@ wider than sibling sections using the same max-width.
 ```
 
 ### 3. Nav
+
 ```
 Build the fixed nav per README: 3-column layout — logo+wordmark (left),
 Arts Council Norway credit (center), nav links + EN/NO toggle (right).
@@ -79,6 +83,7 @@ two strings working now since it's a good test case.
 ```
 
 ### 4. Hero
+
 ```
 Build #hero exactly per README: full-height centered glass card with
 eyebrow, serif headline, accent-bordered pull-quote + attribution, two
@@ -88,6 +93,7 @@ Don't wire scroll parallax yet — static position is fine for this step.
 ```
 
 ### 5. About — bio card + musician sphere field
+
 ```
 Build #about as a 2-column equal-height grid. Right card: bio copy exactly
 per README (eyebrow/heading/two paragraphs/text-link CTA to #contact).
@@ -122,6 +128,7 @@ direct DOM/style manipulation (no framework, no virtual DOM):
 ```
 
 ### 6. Concerts
+
 ```
 Build #concerts: centered eyebrow+heading, then a 3-column grid of
 clickable glass cards using assets/concert-1.jpg, concert-2.jpg,
@@ -152,6 +159,7 @@ with a quick manual click-test after building it.
 ```
 
 ### 7. Media — video + gallery
+
 ```
 Build #media in two stacked glass blocks (both need box-sizing:
 border-box on their outer max-width wrapper — see README's box-sizing
@@ -187,16 +195,18 @@ caution as the concert modal — verify it.
 ```
 
 ### 8. Contact + footer
+
 ```
 Build #contact: two glass cards (form left, contact info + social icons
 right) per the README. Wire the form's submit event listener to
 preventDefault() and console.log the field values for now. Build the
-footer: centered Arts Council Norway icon+text credit (same icon + 
+footer: centered Arts Council Norway icon+text credit (same icon +
 language-dependent text pattern as the nav, same link) above the
 copyright line, 1px top border.
 ```
 
 ### 9. Background + parallax
+
 ```
 Add a single static (non-scrolling) full-bleed background photo behind
 the whole page: assets/hero-ensemble.jpg, heavily blurred (blur(7px)),
@@ -226,6 +236,7 @@ to.
 ```
 
 ### 10. Bilingual copy (i18n)
+
 ```
 Extract all UI copy (nav, hero, about, concerts kicker/labels, media,
 gallery, contact, footer, the Arts Council credit line) plus the concert
@@ -242,6 +253,7 @@ text nodes.
 ```
 
 ### 11. Accessibility & polish pass
+
 ```
 Audit the full page: text contrast over the glass cards against the dark
 background (WCAG AA), keyboard focus rings on every interactive element

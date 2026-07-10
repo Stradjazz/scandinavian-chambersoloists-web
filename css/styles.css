@@ -552,6 +552,14 @@ footer {
   gap: 28px;
 }
 
+.concerts-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 32px;
+  font: 400 15px/1.6 var(--font-body);
+  color: rgba(243, 239, 232, 0.6);
+}
+
 .concert-card {
   background: var(--color-glass-surface);
   backdrop-filter: blur(16px) saturate(140%);
@@ -737,6 +745,22 @@ footer {
 
 .programme-row .programme-sep {
   color: rgba(243, 239, 232, 0.58);
+}
+
+.concert-modal-tickets {
+  align-self: flex-start;
+  margin-top: clamp(4px, 1vh, 8px);
+}
+
+/*
+  .btn sets display:inline-block at the same specificity as the browser's
+  default [hidden]{display:none} rule — and author-origin rules always
+  beat UA-origin ones at a specificity tie, so plain [hidden] wouldn't
+  actually hide this element. This rule outranks .btn by specificity to
+  make the hidden attribute work as expected.
+*/
+.concert-modal-tickets[hidden] {
+  display: none;
 }
 
 .modal-close {
