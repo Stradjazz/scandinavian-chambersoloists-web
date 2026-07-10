@@ -5,3 +5,10 @@ design-reference.html
 README_old.md
 /.claude
 /images
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
